@@ -1,22 +1,22 @@
->>> Sistema de Biblioteca em Python
+# Sistema de Biblioteca em Python
 
-Projeto desenvolvido para praticar POO em Python.
+Projeto desenvolvido para praticar Programação Orientada a Objetos (POO) em Python.
 
->>> Descrição
+## Descrição
 
-Sistema simples pra gerir uma biblioteca via terminal.  
-Permite cadastrar livros e usuários, emprestar e devolver livros, e listar registros.
+Sistema simples para gerir uma biblioteca via terminal.  
+Permite cadastrar livros e usuários, realizar empréstimos e devoluções de livros, e listar registros.
 
->>> Funcionalidades
+## Funcionalidades
 
-> Cadastro de livros
-> Cadastro de usuários
-> Empréstimo de livros
-> Devolução de livros
-> Listagem de livros
-> Listagem de usuários
+- Cadastro de livros
+- Cadastro de usuários
+- Empréstimo de livros
+- Devolução de livros
+- Listagem de livros
+- Listagem de usuários
 
->>> Estrutura do Projeto
+## Estrutura do Projeto
 
 sistema-biblioteca/
 │
@@ -27,27 +27,27 @@ sistema-biblioteca/
 │
 └── main.py
 
->>> Conceitos aplicados
+## Conceitos aplicados
 
-> Classes e objetos
-> Encapsulamento
-> Métodos de busca
-> Controle de estado
-> Estrutura modular
+- Classes e objetos
+- Encapsulamento
+- Métodos de busca
+- Controle de estado
+- Estrutura modular
 
->>> Requisitos
+## Requisitos
 
-> Python 3.10+
+- Python 3.10+
 
->>> Como executar
+## Como executar
 
 No terminal, dentro da pasta do projeto:
 
 python main.py
 
->>> Melhorias futuras
+## Melhorias futuras
 
-> Persistência de dados
-> Validação de entradas
-> Interface gráfica
-> Banco de dados
+- Persistência de dados
+- Validação de entradas
+- Interface gráfica
+- Banco de dados
