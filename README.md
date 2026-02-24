@@ -93,7 +93,7 @@ Isso garante que livros, usuários e empréstimos sejam preservados entre execu�
 
 Implementação de testes automatizados
 
-Migração para banco de dados relacional (ex: SQLite)
+Migração para banco de dados relacional
 
 Criação de API para acesso externo
 
