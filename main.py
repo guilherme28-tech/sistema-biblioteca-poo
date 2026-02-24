@@ -20,11 +20,15 @@ def menu():
 def main():
     
     biblioteca = Biblioteca()
-
+    biblioteca.carregar_dados()
     while True:
 
         menu()
-        opção = int(input("Escolha uma opção: "))
+        try:
+            opção = int(input("Escolha uma opção: "))
+
+        except ValueError:
+            print("O valor da opção precisa ser um número inteiro.")
 
         if opção == 1:
             titulo = input("Titulo: ").title()

@@ -1,5 +1,7 @@
 from projeto_biblioteca.livro import Livro
 from projeto_biblioteca.usuario import Usuario
+import json
+import os
 
 
 class Biblioteca():
@@ -26,6 +28,61 @@ class Biblioteca():
         self.usuarios = []
         self.ids_usuarios = 1
 
+# <<<<<<<<<<<<<<<<<<<
+
+# MANIPULAÇÃO DE DADOS
+
+# >>>>>>>>>>>>>>>>>>>
+
+    def salvar_dados(self):
+        dados = {
+            "livros": [livro.to_dict() for livro in self.livros], 
+            "usuarios": [usuario.to_dict() for usuario in self.usuarios]
+        }
+        try:
+            with open("dados.json", "w", encoding="utf-8") as arquivo:
+                json.dump(dados, arquivo, indent=4, ensure_ascii=False)
+        except Exception as error:
+            print(f"Erro ao tentar salvar dados: {error}")   
+    
+    def carregar_dados(self):
+        if not os.path.exists("dados.json"):
+            return
+        try:
+            with open("dados.json","r",encoding="utf-8") as arquivo:
+                dados = json.load(arquivo)
+        except FileNotFoundError:
+            print("Não foi possivel encontrar o arquivo de dados.")
+            return
+        except json.JSONDecodeError:
+            print("Arquivo de dados inválido.")
+            return
+        except Exception as error:
+            print(f"Erro inesperado. {error}")
+
+        self.livros = []
+        self.usuarios = []
+
+        for livro_data in dados.get("livros", []):
+            livro = Livro.from_dict(livro_data)
+            self.livros.append(livro)
+      
+        for usuario_data in dados.get("usuarios", []):
+            usuario = Usuario.from_dict(usuario_data)
+            self.usuarios.append(usuario)
+
+        for usuario_data in dados.get("usuarios", []):
+            usuario = self.buscar_usuario_por_id(usuario_data["id"])
+
+        for livro_id in usuario_data.get("livros_emprestados", []):
+            livro = self.buscar_livro_por_id(livro_id)
+            if livro:
+                usuario.livros_emprestados.append(livro)
+                livro.disponivel = False
+
+        self.ids_livros = max((l.id for l in self.livros), default=0) + 1
+        self.ids_usuarios = max((u.id for u in self.usuarios), default=0) + 1
+
 # >>>>>>>>>>>>
 
 #   CADASTRO
@@ -37,6 +94,7 @@ class Biblioteca():
         self.livros.append(livro)
         self.ids_livros += 1
         print(f"O livro {titulo}, de {autor}, foi adicionado à biblioteca com sucesso!")
+        self.salvar_dados()
         return None
 
 
@@ -45,6 +103,7 @@ class Biblioteca():
         self.usuarios.append(usuario)
         self.ids_usuarios +=1
         print(f"O usuário {usuario.nome.title()}, id número {usuario.id} foi cadastrado com sucesso!")
+        self.salvar_dados()
         return None
     
 # >>>>>>>>>>>
@@ -73,8 +132,12 @@ class Biblioteca():
 # <<<<<<<<<<<<<<<<<
        
     def emprestar_livro(self, usuario_id, livro_id):
-        usuario = self.buscar_usuario_por_id(usuario_id)
-        livro = self.buscar_livro_por_id(livro_id)
+        try:
+            usuario = self.buscar_usuario_por_id(usuario_id)
+            livro = self.buscar_livro_por_id(livro_id)
+        except ValueError:
+            print("Os IDs precisam ser números inteiros.")
+            return
         
         if usuario is None:
             print("Usuário não encontrado.")
@@ -88,8 +151,8 @@ class Biblioteca():
         else:
             livro.disponivel = False
             usuario.livros_emprestados.append(livro)
-            print("Livro emprestado com sucesso!")
-
+            print(f"O livro foi emprestado para {usuario.nome} com sucesso!")
+        self.salvar_dados()
 # <<<<<<<<<<<<<
 
 #   DEVOLUÇÃO
@@ -111,7 +174,7 @@ class Biblioteca():
             usuario.livros_emprestados.remove(livro)
 
         print("Livro devolvido com sucesso.")
-
+        self.salvar_dados()
 # <<<<<<<<<<<<<<<<<<<
 
 #   LISTAGEM

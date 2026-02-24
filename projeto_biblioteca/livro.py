@@ -14,9 +14,18 @@ class Livro():
         self.autor = autor
         self.disponivel = disponivel
 
-    def __str__(self):
-        if self.disponivel == True:
-            status = "Disponivel."
-        else:
-            status = "Emprestado."
-        return f"{self.id} - {self.titulo} - {self.autor} ({status})"
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "titulo": self.titulo,
+            "autor": self.autor,
+            "disponivel": self.disponivel
+        }
+    @classmethod
+    def from_dict(cls, dados):
+        return cls(
+            dados["id"],
+            dados["titulo"],
+            dados["autor"],
+            dados["disponivel"]
+        )

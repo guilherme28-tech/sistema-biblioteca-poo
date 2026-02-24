@@ -12,6 +12,16 @@ class Usuario():
         self.nome = nome
         self.livros_emprestados = []
     
-    def __str__(self):
-        return f"{self.id} - {self.nome}"
-        
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "nome": self.nome,
+            "livros_emprestados": [livro.id for livro in self.livros_emprestados]
+        }
+    
+    @classmethod
+    def from_dict(cls, dados):
+        return cls(
+            dados["id"],
+            dados["nome"]
+        )
